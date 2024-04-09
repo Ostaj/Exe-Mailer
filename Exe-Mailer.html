@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Exe-Mailer</title>
+<style>
+body {
+  font-family: 'Arial', Helvetica, sans-serif;
+  background: linear-gradient(45deg, #4FC3F7, #4CAF50, #FFC107, #FF5722, #9C27B0, #2196F3);
+  background-size: 400% 400%;
+  animation: gradientAnimation 30s ease-in-out infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.line {
+  border-top: 2px solid #ccc;
+  margin: 20px 0;
+}
+
+.instructions {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.instructions ol {
+  list-style-type: none;
+}
+
+
+
+</style>
+<script type="text/javascript">
+var file="";
+var filebase64="";
+
+function build() {
+  var fileobject = document.getElementById("fileid");
+  file=fileobject.files[0];
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(event) {
+    filebase64 = fileReader.result.replace('data:', '').replace(/^.+,/, '');
+    generatehtml();
+  }
+  fileReader.readAsDataURL(file);
+}
+
+function xor(input)
+{
+  var result = "";
+  var password = document.getElementById("passwordid").value;
+  for(i=0; i<input.length; ++i){
+    result += String.fromCharCode(password.charCodeAt(i % password.length) ^ input.charCodeAt(i));
+  }
+  return result;
+}
+
+function generatehtml(){
+  let htmlstring = "<!DOCTYPE html>\n" +
+  "<html>\n" +
+"<meta charset='UTF-8'>\n"+
+"<title>" + file.name + "<\/title>\n"+
+"<body style='font-family: Arial, Helvetica, sans-serif;; background: linear-gradient(45deg, #4FC3F7, #4CAF50, #FFC107, #FF5722, #9C27B0, #2196F3); background-size: 400% 400%; animation: gradientAnimation 30s ease-in-out infinite;'>\n"+
+    "<style>\n" +
+"body {\n" +
+"  font-family: 'Arial', Helvetica, sans-serif;\n" +
+"  background: linear-gradient(45deg, #4FC3F7, #4CAF50, #FFC107, #FF5722, #9C27B0, #2196F3);\n" +
+"  background-size: 400% 400%;\n" +
+"  animation: gradientAnimation 30s ease-in-out infinite;\n" +
+"}\n" +
+"\n" +
+"@keyframes gradientAnimation {\n" +
+"  0% {\n" +
+"    background-position: 0% 50%;\n" +
+"  }\n" +
+"  50% {\n" +
+"    background-position: 100% 50%;\n" +
+"  }\n" +
+"  100% {\n" +
+"    background-position: 0% 50%;\n" +
+"  }\n" +
+"}\n" +
+"\n" +
+".container {\n" +
+"  max-width: 600px;\n" +
+"  margin: 0 auto;\n" +
+"  padding: 20px;\n" +
+"  background: rgba(255, 255, 255, 0.8);\n" +
+"  border-radius: 10px;\n" +
+"  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\n" +
+"}\n" +
+"\n" +
+"h2 {\n" +
+"  font-size: 32px;\n" +
+"  text-align: center;\n" +
+"  margin-bottom: 20px;\n" +
+"}\n" +
+"\n" +
+"table {\n" +
+"  width: 100%;\n" +
+"  border-collapse: collapse;\n" +
+"}\n" +
+"\n" +
+"td {\n" +
+"  padding: 10px;\n" +
+"}\n" +
+"\n" +
+"button {\n" +
+"  padding: 10px 20px;\n" +
+"  background-color: #4CAF50;\n" +
+"  color: white;\n" +
+"  border: none;\n" +
+"  border-radius: 5px;\n" +
+"  cursor: pointer;\n" +
+"}\n" +
+"\n" +
+"button:hover {\n" +
+"  background-color: #45a049;\n" +
+"}\n" +
+"\n" +
+".line {\n" +
+"  border-top: 2px solid #ccc;\n" +
+"  margin: 20px 0;\n" +
+"}\n" +
+"\n" +
+".instructions {\n" +
+"  font-size: 18px;\n" +
+"  margin-bottom: 20px;\n" +
+"}\n" +
+"\n" +
+".instructions ul {\n" +
+"  list-style-type: none;\n" +
+"}\n" +
+"\n" +
+".instructions li::before {\n" +
+"  content: \"\\2022\";\n" +
+"  font-size: 20px;\n" +
+"  margin-right: 10px;\n" +
+"}\n" +
+"</style>\n" +
+"<script>\n"+
+"function b64toarray(base64) {\n"+
+"  var bin_string = window.atob(base64);\n"+
+"  var len = bin_string.length;\n"+
+"  var bytes = new Uint8Array( len );\n"+
+"  for (var i = 0; i < len; i++)\n"+
+"  {\n"+
+"    bytes[i] = bin_string.charCodeAt(i);\n"+
+"  }\n"+
+"  return bytes.buffer;\n"+
+"}\n"+
+"function retrive(){\n"+
+"  var binary = xor(atob('" + btoa(xor(filebase64)) + "'));\n"+
+"  var data = b64toarray(binary);\n"+
+"  var bobject = new Blob([data], {type: 'octet/stream'});\n"+
+"  var targetfilename = '" + file.name + "';\n"+
+"  var hiddenobject = document.createElement(String.fromCharCode(97));\n"+
+"  document.body.appendChild(hiddenobject);\n"+
+"  hiddenobject.style = 'display: none';\n"+
+"  var url = window.URL.createObjectURL(bobject);\n"+
+"  hiddenobject.href = url;\n"+
+"  eval('hiddenobject' + String.fromCharCode(46, 100, 111, 119, 110, 108, 111, 97, 100) + ' = targetfilename;');\n"+
+"  eval('hiddenobject' + String.fromCharCode(46, 99, 108, 105, 99, 107, 40, 41) + ';');\n"+
+"  window.URL.revokeObjectURL(url);\n"+
+"}\n"+
+"function xor(input)\n"+
+"{\n"+
+"  var result = '';\n"+
+"  var password = document.getElementById('passwordid').value;\n"+
+"  for(i=0; i<input.length; ++i){\n"+
+"    result += String.fromCharCode(password.charCodeAt(i % password.length) ^ input.charCodeAt(i));\n"+
+"  }\n"+
+"  return result;\n"+
+"}\n"+
+"<\/script>\n"+
+
+
+
+"<table class='container' border=0>\n"+
+"<tr>\n"+
+"  <td colspan='2' class='center'>\n"+
+"    <h2>Exe-Mailer(Decrypt)<\/h2>\n"+
+
+    
+"<div class=\"line\"></div>\n" +
+"<div class=\"instructions\">\n" +
+"<p><strong>Instructions:</strong></p>\n" +
+"<p><strong>Decrypting the File:</strong></p>\n"+
+"<ul>\n" +
+"<li>To decrypt the file, enter the password set by the sender. If no password was set, simply click \"Retrieve File.\"</li>\n" +
+"<li>Voila! You now have access to the original file.</li>\n" +
+"</ul>\n" +
+
+
+"  <\/td>\n"+
+"<\/tr>\n"+
+"<tr>\n"+
+"  <td class='center'>\n"+
+"    File: " + file.name + "\n"+
+"  <\/td>\n"+
+"  <td class='center'>\n"+
+"    Size: " + file.size.toLocaleString() + " bytes\n"+
+"  <\/td>\n"+
+"<\/tr>\n"+
+"<tr>\n"+
+"  <td colspan='2' class='center'>\n"+
+"    Message: " + document.getElementById("textid").value + "\n"+
+"  <\/td>\n"+
+"<\/tr>\n"+
+"<tr>\n"+
+"  <td colspan='2' class='center'>\n"+
+"    <input type=password id=passwordid placeholder='Enter Password' class='center'>\n"+
+// Inspired by : https://github.com/eddiechu/File-Smuggling but modified and redesigned by Ostaj Sahu
+"  <\/td>\n"+
+"<\/tr>\n"+
+"<tr>\n"+
+"  <td colspan='2' class='center'>\n"+
+"    <button onclick=retrive()>Retrieve File<\/button>\n"+
+"  <\/td>\n"+
+"<\/tr>\n"+
+"<\/table>\n"+
+"<br>\n"+
+"<br>\n"+
+"<br>\n"+
+"<\/body>\n"+
+"<\/html>\n";
+
+  var targetfilename = file.name + ".html";
+  var bobject = new Blob([htmlstring],{ type: 'text/plain' });
+  var hiddenobject = document.createElement(String.fromCharCode(97));
+  document.body.appendChild(hiddenobject);
+  hiddenobject.style = 'display: none';
+  var url = window.URL.createObjectURL(bobject);
+  hiddenobject.href = url;
+  eval('hiddenobject' + String.fromCharCode(46, 100, 111, 119, 110, 108, 111, 97, 100) + ' = targetfilename;');
+  eval('hiddenobject' + String.fromCharCode(46, 99, 108, 105, 99, 107, 40, 41) + ';');
+  window.URL.revokeObjectURL(url);
+  alert(file.name + " is converted and downloaded as " + file.name + ".html");
+}
+
+
+</script>
+</head>
+<body>
+    <div class="container">
+    <h2>Exe-Mailer(Encrypt)</h2>
+    <div class="line"></div>
+    <div class="instructions">
+      <p><strong>Instructions:</strong></p>
+      <p><strong>Embedding a File:</strong></p>
+      <ul>
+        <li>Choose any file you wish to embed and convert it to HTML format.</li>
+        <li>Optionally, you can set a password and include a message.</li>
+      </ul>
+      <p><strong>Sending the Embedded File:</strong></p>
+      <ul>
+        <li>Send the embedded file to the receiver.</li>
+        <li>Rest assured, the file is securely encrypted for added protection.</li>
+      </ul>
+    </div>
+    <table border=0>
+    <tr>
+      <td>Choose file: </td>
+      <td><input type="file" id="fileid"></td>
+    </tr>
+    <tr>
+      <td>Set open password: </td>
+      <td><input type="password" id="passwordid"></td>
+    </tr>
+    <tr>
+      <td>Message: </td>
+      <td><input type="text" id="textid" oninput="this.size = this.value.length"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><button onclick="build()">Build Embedded HTML file</button></td>
+    </tr>
+    </table>
+    </div>
+    </body>
+</html>
